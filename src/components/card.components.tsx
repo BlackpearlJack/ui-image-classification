@@ -87,7 +87,7 @@ export const UploadCard: React.FC<{ onClassify: (result: Results) => void }> = (
         onSubmit={handleSubmit}
         className="w-full max-w-xl mx-auto p-6 bg-base-100 rounded-2xl shadow-2xl shadow-accent flex flex-col gap-6"
       >
-        <h2 className="text-xl font-semibold text-primary text-center">Upload Image</h2>
+        <h2 className="text-xl font-semibold text-primary text-center">Upload any of the above images</h2>
 
         <div className="flex flex-col items-center justify-center mb-4">
           <FaPhotoFilm className="text-4xl mx-auto text-neutral mb-2" />
