@@ -41,14 +41,23 @@ export type Results = {
    * The image of the identified player or celebrity.
    */
   image: string;
+
   /**
-   * The messge to be displayed when the results loads successfully.
-   * */
+   * The message to be displayed when the results load successfully.
+   */
   message: string;
+
   /**
-   * To handle what to do when the user clicks on the back button.
+   * The probabilities of all identified classes, including the identified player or celebrity.
+   */
+  probabilities: {
+    class: string;
+    probability: number;
+  }[];
+
+  /**
+   * A callback function to handle the back button action.
    * This is optional and can be used to navigate back to the previous screen or perform any other action.
-   */  
+   */
   onBack?: () => void;
-  
-}
+};

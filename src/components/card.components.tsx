@@ -73,7 +73,7 @@ export const UploadCard: React.FC<{ onClassify: (result: Results) => void }> = (
         onClassify(result); // Pass the result to the parent component
       }
       catch (error) {
-        setAlert({ message: "Failed to classify image. Please try again.", type: "error" });
+        setAlert({ message: "Failed to classify image. Please provide an image with a clear face", type: "error" });
       }      
     }
   };
@@ -135,7 +135,7 @@ export const UploadCard: React.FC<{ onClassify: (result: Results) => void }> = (
   );
 };
 
-export const ResultsCard = ({ image, message, onBack }: Results) => {
+export const ResultsCard = ({ image, message, probabilities, onBack }: Results) => {
   return (
     <div className="w-full max-w-xl mx-auto p-6 bg-base-100 rounded-2xl shadow-2xl shadow-accent flex flex-col gap-6">
       <h2 className="text-xl font-semibold text-primary text-center">Classification Results</h2>
@@ -160,6 +160,18 @@ export const ResultsCard = ({ image, message, onBack }: Results) => {
       </div>
       {/* name of the identified player or celebrity */}
       <p className="text-center text-primary">{message}</p>
+
+      {/* Probabilities of other players */}
+      <div className="flex flex-col gap-2 mt-4">
+        <h3 className="text-lg font-semibold text-primary">Probabilities:</h3>
+        <ul className="list-disc list-inside text-primary">
+          {probabilities && probabilities.map((probability, index) => (
+            <li key={index}>
+              {probability.class}: {probability.probability.toFixed(2)}%
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {/* Back button to return to UploadCard */}
       <button

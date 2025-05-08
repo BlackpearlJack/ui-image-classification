@@ -56,9 +56,17 @@ export async function classifyImage(image: File): Promise<Results> {
     // Extract the identified player name from the response
     const name = data[0].class;
 
+    // Map probabilities to class names using the class dictionary
+    const probabilities = Object.entries(data[0].class_dictionary).map(([className, index]) => ({
+      class: className,
+      probability: data[0].class_probability[Number(index)], // Convert index to a number
+    }));
+
+    console.log("Probabilities:", probabilities); // Log the probabilities for debugging
     return {
       image: imagePath, // Use the temporary image path for preview
       message: `The celebrity is: ${name}`, // Return the identified class as the message
+      probabilities, // Include the probabilities in the result
     };
   } catch (error) {
     console.error("Error classifying image:", error);

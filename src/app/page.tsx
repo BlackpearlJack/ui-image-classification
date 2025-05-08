@@ -1,7 +1,6 @@
 "use client";
 import { PlayerCard, UploadCard, ResultsCard } from "@/components/card.components";
 import { Player, Results } from "@/config/type";
-import { classifyImage } from "@/util/service"; // Import the classifyImage function
 import React, { useState } from "react";
 
 export default function Home() {
@@ -14,9 +13,9 @@ export default function Home() {
   ];
 
   const [showResults, setShowResults] = useState(false); // State to toggle between UploadCard and ResultsCard
-  const [resultData, setResultData] = useState<{ image: string; message: string } | null>(null); // State to hold result data
+  const [resultData, setResultData] = useState<Results | null>(null); // State to hold result data
 
-  const handleClassify = (result: { image: string; message: string }) => {
+  const handleClassify = (result: Results) => {
     setResultData(result); // Set the result data
     setShowResults(true); // Show the ResultsCard
   };
@@ -50,6 +49,7 @@ export default function Home() {
           image={resultData.image} // Pass the image path
           message={resultData.message} // Pass the classification message
           onBack={handleBack} // Pass the back handler
+          probabilities={resultData.probabilities || []} // Ensure probabilities are passed
         />
       ) : (
         <UploadCard onClassify={handleClassify} /> // Pass the classify handler
