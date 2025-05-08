@@ -71,10 +71,12 @@ export const UploadCard: React.FC<{ onClassify: (result: Results) => void }> = (
         // console.log("Classification result:", result); // Log the classification result
         setAlert({ message: "Image classified successfully!", type: "success" });
         onClassify(result); // Pass the result to the parent component
+      } catch (error) {
+        setAlert({
+          message: "Failed to classify image. Please provide an image with a clear face",
+          type: "error",
+        });
       }
-      catch (error) {
-        setAlert({ message: "Failed to classify image. Please provide an image with a clear face", type: "error" });
-      }      
     }
   };
 
@@ -87,7 +89,9 @@ export const UploadCard: React.FC<{ onClassify: (result: Results) => void }> = (
         onSubmit={handleSubmit}
         className="w-full max-w-xl mx-auto p-6 bg-base-100 rounded-2xl shadow-2xl shadow-accent flex flex-col gap-6"
       >
-        <h2 className="text-xl font-semibold text-primary text-center">Upload any of the above images</h2>
+        <h2 className="text-xl font-semibold text-primary text-center">
+          Upload any of the above images
+        </h2>
 
         <div className="flex flex-col items-center justify-center mb-4">
           <FaPhotoFilm className="text-4xl mx-auto text-neutral mb-2" />
@@ -161,16 +165,28 @@ export const ResultsCard = ({ image, message, probabilities, onBack }: Results) 
       {/* name of the identified player or celebrity */}
       <p className="text-center text-primary">{message}</p>
 
-      {/* Probabilities of other players */}
+      {/* Probabilities Table */}
       <div className="flex flex-col gap-2 mt-4">
         <h3 className="text-lg font-semibold text-primary">Probabilities:</h3>
-        <ul className="list-disc list-inside text-primary">
-          {probabilities && probabilities.map((probability, index) => (
-            <li key={index}>
-              {probability.class}: {probability.probability.toFixed(2)}%
-            </li>
-          ))}
-        </ul>
+        <table className="table-auto w-full border-collapse border border-primary">
+          <thead>
+            <tr>
+              <th className="border border-primary px-4 py-2 text-left">Class</th>
+              <th className="border border-primary px-4 py-2 text-left">Probability (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {probabilities &&
+              probabilities.map((probability, index) => (
+                <tr key={index}>
+                  <td className="border border-primary px-4 py-2 text-primary">{probability.class}</td>
+                  <td className="border border-primary px-4 py-2">
+                    {probability.probability.toFixed(2)}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Back button to return to UploadCard */}
@@ -181,5 +197,5 @@ export const ResultsCard = ({ image, message, probabilities, onBack }: Results) 
         Back to Upload
       </button>
     </div>
-  )
+  );
 };
